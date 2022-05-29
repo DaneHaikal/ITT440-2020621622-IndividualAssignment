@@ -8,48 +8,48 @@
 
 #define MAX 1024
 #define PORT 42
-#define SA struct sockaddr
+#define SA struct socketaddr
 
 int main(int argc, int sockfd, char *argv[])
 {
-	int sockDesc;
-	struct sockaddr_in server;
+	int socketDesc;
+	struct socketaddr_in server;
 	char *message, server_reply[2000];
 
 	char buff[1024];
 	bzero(buff, 1024);
 	int n;
 
-	sockDesc = socket(AF_INET, SOCK_STREAM, 0);
-	if(sockDesc == -1)
+	socketDesc = socket(AF_INET, SOCK_STREAM, 0);
+	if(socketDesc == -1)
 	{
-		printf("Could not create a socket");
+		printf("Socket Could Not Be Created");
 	}
 	else
 	{
-		printf("Socket successfully created\n");
+		printf("Socket Created Successfully\n");
 	}
 
 	server.sin_addr.s_addr = inet_addr("192.168.56.103");
 	server.sin_family = AF_INET;
 	server.sin_port = htons( 42 );
 
-	if(connect(sockDesc, (struct sockaddr *)&server, sizeof(server)) <0)
+	if(connect(socketDesc, (struct socketaddr *)&server, sizeof(server)) <0)
 	{
 		printf("Connection Error");
 		return 1;
 	}
 
-	puts("Socket connecting to remote server...");
+	printf("Socket Connecting to Server...");
 
-	puts("Socket Connected");
+	printf("Socket Connected");
 
-	puts("\nARPA Host Name Server Protocol Client\n");
+	printf("\nARPA Host Name Server Protocol Client\n");
 
 	do
 	{
 		bzero(buff, sizeof(buff));
-		printf("Enter your request: \n");
+		printf("Enter Your Request: \n");
 		n = 0;
 
 		while ((buff[n++] = getchar()) != '\n');
@@ -59,31 +59,30 @@ int main(int argc, int sockfd, char *argv[])
 	}
 	while (0);
 
-	if(recv(sockDesc, server_reply, 2000, 0) <0)
+	if(recv(socketDesc, server_reply, 2000, 0) <0)
 	{
-		puts("recv failed");
+		printf("Recv Failed");
 	}
 
-	puts("\nReply Received\n");
+	printf("\nReply Received\n");
 
-	puts(server_reply);
+	printf(server_reply);
 
-	char *hostname = "www.facebook.com";
+	char *hostname = "www.youtube.com";
 	char ipaddr[100];
 	struct hostent *host;
 	struct in_addr  **addr_list;
-	int i;
 
 	if((host = gethostbyname(hostname)) == NULL)
 	{
 		herror("gethostbyname");
 		return 1;
 	}
-	puts("Hostname: www.facebook.com");
+	printf("Hostname: www.youtube.com");
 
 	addr_list = (struct in_addr **) host->h_addr_list;
 
-	for(i = 0; addr_list[i] != NULL; i++)
+	for(int i = 0; addr_list[i] != NULL; i++)
 	{
 		strcpy(ipaddr, inet_ntoa(*addr_list[i]));
 	}
