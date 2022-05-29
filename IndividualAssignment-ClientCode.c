@@ -34,4 +34,26 @@ int main(int argc, int sockfd, char *argv[])
 	server.sin_family = AF_INET;
 	server.sin_port = htons( 42 );
 
+	if(connect(sockDesc, (struct sockaddr *)&server, sizeof(server)) <0)
+	{
+		printf("Connection Error");
+		return 1;
+	}
+	
+	printf("Socket connecting to remote server...");
+	printf("Socket Connected");
+	printf("\nARPA Host Name Server Protocol Client\n");
+
+	do
+	{
+		bzero(buff, sizeof(buff));
+		printf("Enter your request: \n");
+		n = 0;
+		
+		while ((buff[n++] = getchar()) != '\n');
+			write(sockfd, buff, sizeof(buff));
+			bzero(buff, sizeof(buff));
+			read(sockfd,buff,sizeof(buff));
+	}
+	while (0);
 
